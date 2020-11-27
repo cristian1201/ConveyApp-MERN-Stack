@@ -43,9 +43,11 @@ function OrderPage() {
     };
 
     const userFriendlyStatus = {
+        "B": "B",
         'in_transit': "In Transit",
         'scheduled': "Scheduled"
     };
+
     console.log(state);
 
     const PanelHeader = ({ children }) => {
@@ -54,8 +56,11 @@ function OrderPage() {
         const date = new Date(currentShipment.dates.estimatedDeliveryDate);
         return (
             <div className="flex flex-col items-center text-xl">
-                <p>{userFriendlyStatus[currentShipment.status]}</p>
-                <p>Estimated Delivery: {date.toLocaleDateString([], { day: 'numeric', month: 'short', weekday: 'short' })}</p>
+                <p className="font-bold">{userFriendlyStatus[currentShipment.status]}</p>
+                <div className="flex">
+                    Estimated Delivery: 
+                    <p className="font-bold">{date.toLocaleDateString([], { day: 'numeric', month: 'short', weekday: 'short' })}</p>
+                </div>
             </div>
         );
     };
@@ -68,7 +73,6 @@ function OrderPage() {
         return events.map((event, index) => {
             const dt = new Date(event.createdDateTime);
             var showDate = true;
-            console.log(dt);
 
             if (index !== 0 && dt.toDateString() === buffer) showDate = false;
 
@@ -86,7 +90,7 @@ function OrderPage() {
                     <div className="flex flex-col justify-center w-full pl-2">
                         <div className="flex w-full justify-between">
                             <p className="text-lg mb-2 font-bold">{userFriendlyStatus[event.status]}</p>
-                            {event.status === "in_transit" && <p>{event.city}, {event.state}</p>}
+                            {event.status === "in_transit" && <p>{event.city}, <strong>{event.state}</strong></p>}
                         </div>
                         <p>{event.statusDesc}</p>
                     </div>
@@ -106,7 +110,7 @@ function OrderPage() {
                         </div>
                         <div className="flex mb-16">
                             <div className="flex flex-col w-1/2 mx-2 shadow">
-                                <img className="mx-auto p-10" src={images.IMAGE_PICKUP}></img>
+                                <img className="mx-auto p-8" src={images.IMAGE_PICKUP}></img>
                                 <PanelHeader />
                                 <div className="my-10 border-b"></div>
                                 <EventList className="mx-5" />
