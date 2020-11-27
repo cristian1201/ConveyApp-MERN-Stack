@@ -19,7 +19,7 @@ function Header() {
           const pathName = location.pathname.substr(0, lastPos === 0 ? len : lastPos);
 
           return (
-            <div className={"flex mx-auto flex-wrap items-center justify-between bg-white z-50" + (isMobile ? "px-3" : "px-10 lg:px-20")} style={{ maxWidth: "1440px" }}>
+            <div className={"flex mx-auto flex-wrap items-center justify-between bg-white z-50 " + (isMobile ? "px-3" : "px-10 lg:px-20")} style={{ maxWidth: "1440px" }}>
               <div className="my-auto">
                 <Link to="/" className="">
                   <img
@@ -73,7 +73,7 @@ function Header() {
                 ].map((link, index) => (
                   <div className="relative" key={index}>
                     <Link
-                      className={"block text-center text-base md:inline-block md:mx-6 mb-2 md:mb-0 no-underline  hover:bg-gray-300 md:hover:bg-white uppercase"
+                      className={"block text-center text-base md:inline-block md:mx-4 mb-2 md:mb-0 no-underline  hover:bg-gray-300 md:hover:bg-white uppercase"
                         + (link.route === pathName ? " text-gray-900  hover:text-gray-900 " : " text-lightBlack hover:text-gray-900")}
 
                       key={link.title}
