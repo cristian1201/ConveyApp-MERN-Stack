@@ -101,7 +101,7 @@ function OrderPage() {
     };
     return (
         <Layout>
-            <div className="bg-mainBack mx-auto lg:pl-20 flex justify-between min-h-screen" style={{ paddingTop: "89px", maxWidth: "1440px" }}>
+            <div className="mx-auto lg:pl-20 flex justify-between min-h-screen" style={{ paddingTop: "89px", maxWidth: "1440px" }}>
                 <div className="flex min-w-full justify-between flex-col">
                     <div className="flex flex-col min-w-full ">
                         <div className="p-10 flex mx-auto">
@@ -109,7 +109,7 @@ function OrderPage() {
                             <p className="font-bold underline">See Full Order</p>
                         </div>
                         <div className="flex mb-16">
-                            <div className="flex flex-col w-1/2 mx-2 shadow">
+                            <div className="bg-white flex flex-col w-1/2 mx-2 shadow">
                                 <img className="mx-auto p-8" src={images.IMAGE_PICKUP}></img>
                                 <PanelHeader />
                                 <div className="my-10 border-b"></div>

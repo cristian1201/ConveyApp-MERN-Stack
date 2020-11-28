@@ -19,7 +19,7 @@ function Header() {
           const pathName = location.pathname.substr(0, lastPos === 0 ? len : lastPos);
 
           return (
-            <div className={"flex mx-auto flex-wrap items-center justify-between bg-white z-50 " + (isMobile ? "px-3" : "px-10 lg:px-20")} style={{ maxWidth: "1440px" }}>
+            <div className={"flex mx-auto flex-wrap items-center justify-between z-50 " + (isMobile ? "px-3" : "px-10 lg:px-20")} style={{ maxWidth: "1440px" }}>
               <div className="my-auto">
                 <Link to="/" className="">
                   <img

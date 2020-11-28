@@ -9,12 +9,12 @@ if (typeof window !== `undefined`) {
 
 function Layout({ children }) {
   return (
-    <div className="w-full mx-auto bg-mainBack flex-col font-lora-regular text-gray-900 text-base">
-      <div className="fixed shadow w-full z-50">
+    <div className="w-full mx-auto flex-col font-lora-regular text-gray-900 text-base">
+      <div className="fixed bg-white shadow w-full z-50">
         <Header />
       </div>
 
-      <main className="flex-1 w-full text-color min-h-screen mx-auto z-10">
+      <main className="flex-1 bg-mainBack w-full text-color min-h-screen mx-auto z-10">
         {children}
       </main>
     </div>
