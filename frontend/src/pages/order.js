@@ -5,13 +5,19 @@ import Layout from "../components/layout"
 import { getShipments } from "../services/orderService";
 import { Link } from "gatsby";
 import images from "../constants/images";
+import Modal from "react-modal";
+
 
 function OrderPage() {
-    const [state, setState] = useState({
-        shipments: [],
-        current: 0,
-        total: 0
-    });
+    const [isOpen, setIsOpen] = useState(false);
+
+    function toggleModal() {
+        setIsOpen(!isOpen);
+    }
+
+    const [shipments, setShipments] = useState([]);
+    const [current, setCurrent] = useState(0);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         getData();
@@ -28,18 +34,14 @@ function OrderPage() {
             if (item.quantity !== undefined) total += item.quantity;
         });
 
-        const data = {
-            shipments: shipments,
-            current: 0,
-            total: total
-        };
-        setState(data);
+        setShipments(shipments);
+        setTotal(total);
     };
 
     const getQuantityOfCurrentShipment = () => {
-        if (state.shipments.length === 0) return 0;
-        if (state.shipments[0].quantity === undefined) return 0;
-        return state.shipments[0].quantity;
+        if (shipments.length === 0) return 0;
+        if (shipments[current].quantity === undefined) return 0;
+        return shipments[current].quantity;
     };
 
     const userFriendlyStatus = {
@@ -48,17 +50,16 @@ function OrderPage() {
         'scheduled': "Scheduled"
     };
 
-    console.log(state);
 
     const PanelHeader = ({ children }) => {
-        if (state.shipments.length === 0) return (<p className="text-xl">No Shipments</p>);
-        const currentShipment = state.shipments[state.current];
+        if (shipments.length === 0) return (<p className="text-xl">No Shipments</p>);
+        const currentShipment = shipments[current];
         const date = new Date(currentShipment.dates.estimatedDeliveryDate);
         return (
             <div className="flex flex-col items-center text-xl">
                 <p className="font-bold">{userFriendlyStatus[currentShipment.status]}</p>
                 <div className="flex">
-                    Estimated Delivery: 
+                    Estimated Delivery:
                     <p className="font-bold">{date.toLocaleDateString([], { day: 'numeric', month: 'short', weekday: 'short' })}</p>
                 </div>
             </div>
@@ -66,10 +67,10 @@ function OrderPage() {
     };
 
     const EventList = ({ children, className }) => {
-        if (state.shipments.length === 0) return "";
-        // const carrier = state.shipments[state.current].carrier;
+        if (shipments.length === 0) return "";
+        // const carrier = shipments[current].carrier;
         var buffer = "";
-        const events = state.shipments[state.current].events.sort((a, b) => { return a.createdDateTime > b.createdDateTime; });
+        const events = shipments[current].events.sort((a, b) => { return a.createdDateTime > b.createdDateTime; });
         return events.map((event, index) => {
             const dt = new Date(event.createdDateTime);
             var showDate = true;
@@ -99,14 +100,38 @@ function OrderPage() {
             </div>)
         });
     };
+
+    const ShipmentList = ({children, shipment, index}) => {
+        const date = new Date(shipment.dates.estimatedDeliveryDate);
+        console.log(index);
+        return (
+            <div className="flex flex-col py-5 border-b">
+                <p className="text-gray-600 uppercase">estimated delivery</p>
+                <p className="text-2xl font-bold mb-5">{ date.toLocaleDateString([], { day: 'numeric', month: 'short', weekday: 'short' }) }</p>
+                <div className="flex justify-between">
+                    <p>Quantity</p>
+                    <p>{shipment.quantity}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p>Ref #</p>
+                    <p>{shipment.referenceNumber}</p>
+                </div>
+                <div className="flex justify-between">
+                    <p>Description</p>
+                    <p style={{ maxWidth: "60%", textAlign:"right" }}>{shipment.description}</p>
+                </div>
+                <button className="primary-sm w-full mt-5" onClick={ () => {setCurrent(index); toggleModal();}}>see tracking details</button>
+            </div>
+        )
+    };
     return (
         <Layout>
             <div className="mx-auto lg:pl-20 flex justify-between min-h-screen" style={{ paddingTop: "89px", maxWidth: "1440px" }}>
                 <div className="flex min-w-full justify-between flex-col">
                     <div className="flex flex-col min-w-full ">
                         <div className="p-10 flex mx-auto">
-                            This shipment includes {getQuantityOfCurrentShipment()} of your {state.total} items.
-                            <p className="font-bold underline">See Full Order</p>
+                            This shipment includes {getQuantityOfCurrentShipment()} of your {total} items.
+                            <p className="font-bold underline cursor-pointer" onClick={toggleModal}>See Full Order</p>
                         </div>
                         <div className="flex mb-16">
                             <div className="bg-white flex flex-col w-1/2 mx-2 shadow">
@@ -119,19 +144,61 @@ function OrderPage() {
                                 <img className="w-full" src={images.IMAGE_PROMO}></img>
                                 <div className="bg-customBlack h-full flex flex-col justify-center items-center pt-5 pb-10">
                                     <p className="text-5xl text-white pb-5">Gift holiday cheer!</p>
-                                    <button className="mx-auto bg-white rounded-lg px-6 py-4 text-gray-900 uppercase">
+                                    <button className="secondary">
                                         shop our gift guide
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <button className="mx-auto bg-primary rounded-lg px-6 py-4 mb-16 text-white uppercase">
+                        <button className="primary mb-16" onClick={toggleModal}>
                             see all items in your order
                         </button>
                     </div>
                 </div>
             </div>
-
+            <Modal
+                style={{
+                    overlay: {
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+                    },
+                    content: {
+                        position: 'absolute',
+                        top: '0',
+                        left: '',
+                        right: '0',
+                        bottom: '0',
+                        width: '400px',
+                        border: '1px solid #ccc',
+                        background: '#fff',
+                        overflow: 'auto',
+                        WebkitOverflowScrolling: 'touch',
+                        borderRadius: '4px',
+                        outline: 'none',
+                        padding: '0',
+                        zIndex: 50
+                    }
+                }}
+                isOpen={isOpen}
+                onRequestClose={toggleModal}
+                contentLabel="My dialog"
+            >
+                <div className="flex justify-between border-b p-5">
+                    <p className="text-2xl">Order Overview</p>
+                    <button onClick={toggleModal}>
+                        <img src={images.IMAGE_IC_CLOSE}></img>
+                    </button>
+                </div>
+                <div className="flex flex-col p-5">
+                    { shipments.map((shipment, index) => (
+                        <ShipmentList shipment={shipment} index={index} key={index} />
+                    )) }
+                </div>
+            </Modal>
         </Layout >
     )
 }
