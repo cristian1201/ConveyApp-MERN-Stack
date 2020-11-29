@@ -9,7 +9,7 @@ import Modal from "react-modal";
 import { BrowserView, MobileView, isMobile } from 'react-device-detect';
 
 
-function OrderPage() {
+function OrderPage({location}) {
     const [isOpen, setIsOpen] = useState(false);
 
     function toggleModal() {
@@ -24,10 +24,10 @@ function OrderPage() {
         getData();
     }, []);
 
-    const id = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    const orderNumber = location.href.split("/").pop();
 
     const getData = async () => {
-        const { data: shipments } = await getShipments(id);
+        const { data: shipments } = await getShipments(orderNumber);
 
         var total = 0;
 

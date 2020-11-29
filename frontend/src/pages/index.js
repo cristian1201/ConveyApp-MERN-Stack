@@ -29,7 +29,7 @@ function IndexPage() {
             <p className="p-10 mx-auto">There are 2 orders and please select.</p>
             <div className="mx-15p flex flex-wrap">
               {orders.map((order, index) => (
-                <Link to={order.shipments.length === 0 ? "/none" : "/order/" + order.orderNumber} key={index}>
+                <Link to={"/order/" + order.orderNumber} key={index}>
                   <div className="m-2 rounded-lg text-white px-10 py-5 bg-primary">
                     Order {index + 1}
                   </div>
