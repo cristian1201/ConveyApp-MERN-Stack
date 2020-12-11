@@ -1,12 +1,12 @@
 ## Introduction
 
-This project is the backend of Vidly, an imaginary video rental app. I've used Vidly as an example in several of my online programming courses, such as:
+This project is the backend of ConveyApp, an delivery experience app. I've used ConveyApp as an example in several of my online programming courses, such as:
 
 - https://codewithmosh.com/p/mastering-react
 - https://codewithmosh.com/p/the-complete-node-js-course
 - https://codewithmosh.com/p/asp-net-mvc
 
-This is the implementation of Vidly in Node.js.
+This is the implementation of ConveyApp in Node.js.
 
 ## Setup
 

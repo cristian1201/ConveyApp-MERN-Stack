@@ -1,12 +1,15 @@
-# Demo site for gatsby-theme-tailwindcss
+## Introduction
 
-A demo site which is using the theme in a very basic configuration.
+This project is the frontend of ConveyApp, an delivery experience app.
+
+A ConveyApp site which is using the theme in a very basic configuration.
+
+This is the implementation of ConveyApp in gatsby.js.
 
 ## How to use this repo
 
 1.  Clone the repo
 2.  Install dependencies
-
 
     ```sh
     yarn
@@ -18,7 +21,7 @@ A demo site which is using the theme in a very basic configuration.
     npm install
     ```
 
-3. Start the demo site
+3. Start the ConveyApp site
 
    ```sh
    yarn start
@@ -30,4 +33,4 @@ A demo site which is using the theme in a very basic configuration.
    npm start
    ```
 
-4. Play with the demo site.
+4. Experience with the ConveyApp site.
